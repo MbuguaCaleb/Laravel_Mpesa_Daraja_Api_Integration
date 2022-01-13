@@ -12,3 +12,13 @@ Till Number: Till number is attached to the store number. This is used to make p
 
 
 ```
+
+**Daraja Terminologies**
+
+```
+
+For you to get responses from Mpesa you must have registered Urls Before time.
+
+
+
+```
