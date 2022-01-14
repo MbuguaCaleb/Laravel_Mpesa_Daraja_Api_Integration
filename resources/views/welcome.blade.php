@@ -25,6 +25,7 @@
                     <div class="card mt-5">
                         <div class="card-header">Register Urls</div>
                         <div class="card-body">
+                            <div id="response"></div>
                             <button class="btn btn-primary" id="registerURLS">
                                 Register URLs
                             </button>
