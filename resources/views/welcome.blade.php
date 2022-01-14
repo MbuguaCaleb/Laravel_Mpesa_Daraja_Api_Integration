@@ -5,6 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="{{ asset('css/app.css') }}" />
+        <meta name="csrf-token" content="{{csrf_token()}}" />
         <title>Laravel Mpesa Daraja Api</title>
     </head>
     <body>
@@ -24,7 +25,7 @@
                     <div class="card mt-5">
                         <div class="card-header">Register Urls</div>
                         <div class="card-body">
-                            <button class="btn btn-primary">
+                            <button class="btn btn-primary" id="registerURLS">
                                 Register URLs
                             </button>
                         </div>
@@ -64,17 +65,6 @@
         
 
         <script src="{{asset('js/app.js')}}"></script>
-        <script>
-
-        document.getElementById('getAccessToken').addEventListener('click',(event)=>{
-            event.preventDefault()
-            axios.post('/get-token',{}).then((response)=>{
-                document.getElementById('access-token').innerHTML = response.data.access_token
-            }).catch((error)=>{
-                console.log(error);
-            })
-
-        })
-        </script>
+    
     </body>
 </html>

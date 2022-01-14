@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Payments\mpesa;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
+
 
 class MPESAController extends Controller
 {
@@ -17,7 +16,6 @@ class MPESAController extends Controller
         curl_setopt_array(
             $curl,
             array(
-                CURLOPT_HTTPHEADER => ['Content-Type: application/json; charset=utf8'],
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_HEADER => false,
                 CURLOPT_USERPWD => env('MPESA_CONSUMER_KEY') . ':' . env('MPESA_CONSUMER_SECRET')
@@ -34,30 +32,49 @@ class MPESAController extends Controller
 
     }
 
+
+    public function registerURLS(){
+
+  
+      $url = env('MPESA_ENV') == 0
+        ? 'https://sandbox.safaricom.co.ke/mpesa/c2b/v1/registerurl'
+        : 'https://api.safaricom.co.ke/mpesa/c2b/v1/registerurl';
+
+
+      //Mpesa sends the responses to both the Validation and Confirmation URLS.
+      $body = array(  
+          "ShortCode"=> env('MPESA_SHORTCODE'),
+          "ResponseType"=> "Completed",
+          "ConfirmationURL"=> env('MPESA_TEST_URL').'/api/confirmation',
+          "ValidationURL"=> env('MPESA_TEST_URL').'/api/validation' 
+      );
+
+    
+      $response = $this->makeHttp($url, $body);
+
+      return $response;
+
+    }
     public function makeHttp($url,$body){
     
+      
       $curl = curl_init();
-      
-      curl_setopt_array($curl, 
-      array(
-        CURLOPT_URL => $url,
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => '',
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 0,
-        CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => 'POST',
-        CURLOPT_POSTFIELDS =>json_encode($body),
-        CURLOPT_HTTPHEADER => array(
-          'Authorization:Bearer'.$this->getAccessToken(),
-          'Content-Type: application/json'
-        ),
-      ));
-      
-      $response = curl_exec($curl);
+      curl_setopt_array(
+          $curl,
+          array(
+                  CURLOPT_URL => $url,
+                  CURLOPT_HTTPHEADER => array(
+                    'Authorization: Bearer '. $this->getAccessToken(),
+                    'Content-Type: application/json'
+                  ),
+                  CURLOPT_RETURNTRANSFER => true,
+                  CURLOPT_POST => true,
+                  CURLOPT_POSTFIELDS => json_encode($body)
+              )
+      );
+      $curl_response = curl_exec($curl);
       curl_close($curl);
-      return $response;
+      return $curl_response;
       
     }
 }
