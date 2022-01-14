@@ -14,7 +14,9 @@
                     <div class="card">
                         <div class="card-header">Obtain Access Token</div>
                         <div class="card-body">
-                            <button class="btn btn-primary">
+                            <h4 id="access-token"></h4>
+
+                            <button id="getAccessToken" class="btn btn-primary">
                                 Request Access Token
                             </button>
                         </div>
@@ -55,9 +57,24 @@
                                 </button>
                             </form>
                         </div>
-                    </div>
+                      </div>
                 </div>
-            </div>
+             </div>
         </div>
+        
+
+        <script src="{{asset('js/app.js')}}"></script>
+        <script>
+
+        document.getElementById('getAccessToken').addEventListener('click',(event)=>{
+            event.preventDefault()
+            axios.post('/get-token',{}).then((response)=>{
+                document.getElementById('access-token').innerHTML = response.data.access_token
+            }).catch((error)=>{
+                console.log(error);
+            })
+
+        })
+        </script>
     </body>
 </html>
