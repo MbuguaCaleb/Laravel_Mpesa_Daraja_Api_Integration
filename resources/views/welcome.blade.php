@@ -54,7 +54,7 @@
                                         class="form-control"
                                     />
                                 </div>
-                                <button class="btn btn-primary mt-3">
+                                <button id="simulate"class="btn btn-primary mt-3">
                                     Simulate Transaction
                                 </button>
                             </form>

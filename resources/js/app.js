@@ -24,6 +24,7 @@ document.getElementById("registerURLS").addEventListener("click", (event) => {
                 document.getElementById("response").innerHTML =
                     response.data.ResponseDescription;
             } else {
+                console.log(response.data)
                 document.getElementById("response").innerHTML =
                     response.data.errorMessage;
             }
@@ -32,3 +33,21 @@ document.getElementById("registerURLS").addEventListener("click", (event) => {
             console.log(error);
         });
 });
+
+
+// document.getElementById('simulate').addEventListener('click',(event)=>{
+//     event.preventDefault();
+
+//     const requestBody ={
+//         amount:document.getElementById('amount').value,
+//         account:document.getElementById('account').value
+//     }
+
+//     console.log(requestBody)
+
+//     axios.post('/simulate',requestBody)
+//     .then((response)=>{
+//         console.log(response.data)
+//     }).catch((error) => console.log(error))
+
+// })

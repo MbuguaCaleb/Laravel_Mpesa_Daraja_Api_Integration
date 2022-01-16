@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Payments\mpesa;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
 
 
@@ -60,20 +61,27 @@ class MPESAController extends Controller
     //c2b Payment
     public function simulateTransaction(Request $request){
 
+     
       $body = array(
-        "ShortCode"=>" ",
+        "ShortCode"=>env('MPESA_SHORTCODE'),
         "CommandID"=>"CustomerPayBillOnline",
-        "Amount"=>$request->amount,
-        "Msisdn"=>" ",
-        "BillRefNumber"=>$request->account
+        "Amount"=>1,
+        "Msisdn"=>"254724628580",
+        "BillRefNumber"=>675
       );
 
 
+      Log::info($body);
+      
       $url = env('MPESA_ENV') == 0
-        ? 'https://sandbox.safaricom.co.ke/mpesa/c2b/v1/registerurl'
-        : 'https://api.safaricom.co.ke/mpesa/c2b/v1/registerurl';
-        
+        ? 'https://sandbox.safaricom.co.ke/mpesa/c2b/v1/simulate'
+        : 'https://api.safaricom.co.ke/mpesa/c2b/v1/simulate';
 
+      $response = $this->makeHttp($url,$body);
+
+      return $response;
+
+        
     }
     public function makeHttp($url,$body){
     
